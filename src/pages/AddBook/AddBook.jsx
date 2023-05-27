@@ -1,0 +1,61 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useAuth } from "../../context/auth";
+
+const AddBook = () => {
+  const navigate = useNavigate();
+
+  const [author, setAuthor] = useState("");
+  const [title, setTitle] = useState("");
+  const [genre, setGenre] = useState("");
+  const [publicationYear, setPublicationYear] = useState("");
+  const { addBook } = useAuth();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const bookData = {
+      tittle: title,
+      author: author,
+      genre: genre,
+      publication: publicationYear,
+    };
+    addBook(bookData);
+  };
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Write an author"
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
+      />
+
+      <input
+        type="text"
+        placeholder="Write a title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+
+      <input
+        type="text"
+        placeholder="Write a genre"
+        value={genre}
+        onChange={(e) => setGenre(e.target.value)}
+      />
+
+      <input
+        type="text"
+        placeholder="Write a publication year"
+        value={publicationYear}
+        onChange={(e) => setPublicationYear(e.target.value)}
+      />
+
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
+  );
+};
+
+export default AddBook;
