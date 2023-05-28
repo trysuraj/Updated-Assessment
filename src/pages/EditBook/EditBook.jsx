@@ -1,34 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+
 import axios from "axios";
+import { useAuth } from "../../context/auth";
 
 const EditBook = () => {
   const navigate = useNavigate();
   const params = useParams();
-
-  const [author, setAuthor] = useState("");
-  const [title, setTitle] = useState("");
-  const [genre, setGenre] = useState("");
-  const [publicationYear, setPublicationYear] = useState("");
+  const { author, title, genre, publicationYear } = useAuth();
+  console.log({ author, title, genre, publicationYear });
+  const [bookAuthor, setBookAuthor] = useState("");
+  const [bookTitle, setBookTitle] = useState("");
+  const [bookGenre, setBookGenre] = useState("");
+  const [bookPublicationYear, setBookPublicationYear] = useState("");
   const [id, setId] = useState("");
-
-  useEffect(() => {
-    loadBook();
-  }, []);
-
-  const loadBook = async () => {
-    try {
-      const { data } = await axios.get(`/Book/${params.bookId}`);
-      setAuthor(data.author);
-      setTitle(data.title);
-      setGenre(data.genre);
-      setPublicationYear(data.publicationYear);
-      setId(data.id);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,52 +39,41 @@ const EditBook = () => {
     }
   };
 
-  const handleDelete = async (req, res) => {
-    try {
-      let answer = window.confirm("Are you sure you want to delete this book?");
-      if (!answer) return;
-      const { data } = await axios.delete(`/Book/${id}`);
-      toast.success(`"${data.tittle}" is deleted`);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-      toast.error("Delete failed. Try again.");
-    }
-  };
-
   return (
-    <div>
+    <div className="form">
       <input
         type="text"
+        className="input"
         placeholder="Write an author"
         value={author}
-        onChange={(e) => setAuthor(e.target.value)}
+        onChange={(e) => setBookAuthor(e.target.value)}
       />
 
       <input
         type="text"
+        className="input"
         placeholder="Write a title"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => setBookTitle(e.target.value)}
       />
 
       <input
         type="text"
         placeholder="Write a genre"
+        className="input"
         value={genre}
-        onChange={(e) => setGenre(e.target.value)}
+        onChange={(e) => setBookGenre(e.target.value)}
       />
 
       <input
         type="text"
         placeholder="Write a publication year"
+        className="input"
         value={publicationYear}
-        onChange={(e) => publicationYear(e.target.value)}
+        onChange={(e) => setBookPublicationYear(e.target.value)}
       />
 
       <button onClick={handleSubmit}>Update</button>
-
-      <button onClick={handleDelete}>Delete</button>
     </div>
   );
 };

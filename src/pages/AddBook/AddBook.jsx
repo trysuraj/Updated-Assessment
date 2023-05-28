@@ -24,9 +24,10 @@ const AddBook = () => {
     addBook(bookData);
   };
   return (
-    <div>
+    <div className="form">
       <input
         type="text"
+        className="input"
         placeholder="Write an author"
         value={author}
         onChange={(e) => setAuthor(e.target.value)}
@@ -34,6 +35,7 @@ const AddBook = () => {
 
       <input
         type="text"
+        className="input"
         placeholder="Write a title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
@@ -41,6 +43,7 @@ const AddBook = () => {
 
       <input
         type="text"
+        className="input"
         placeholder="Write a genre"
         value={genre}
         onChange={(e) => setGenre(e.target.value)}
@@ -48,6 +51,7 @@ const AddBook = () => {
 
       <input
         type="text"
+        className="input"
         placeholder="Write a publication year"
         value={publicationYear}
         onChange={(e) => setPublicationYear(e.target.value)}

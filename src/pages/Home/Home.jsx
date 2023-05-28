@@ -9,9 +9,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/auth";
 const Home = () => {
-  const { loadBook, auth, handleDelete } = useAuth();
+  const { loadBook, auth, handleDelete, handleEdit } = useAuth();
 
-  const handleEdit = (book, index) => {};
   useEffect(() => {
     loadBook();
   }, []);
@@ -55,6 +54,7 @@ const Home = () => {
                     <div style={{ position: "relative", marginRight: "8px" }}>
                       <span
                         onClick={() => {
+                          console.log("this is not book", book);
                           handleEdit(book, book.id);
                         }}
                         className={styles["edit_link"]}

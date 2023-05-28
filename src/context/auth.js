@@ -15,11 +15,25 @@ const AuthProvider = ({ children }) => {
   const [genre, setGenre] = useState("");
   const [publicationYear, setPublicationYear] = useState("");
   const [id, setId] = useState("");
-  const handleEdit = (book, index) => {
-    setAuthor(book.author);
-    setTitle(book.author);
-    setGenre(book.author);
-    setPublicationYear(book.p);
+
+  const [updateData, setUpdateData] = useState({
+    author: "",
+    title: "",
+    genre: "",
+    publicationYear: "",
+    id: "",
+  });
+  const handleEdit = (book, id) => {
+    console.log("this is book", book);
+    setUpdateData({
+      author: book.author,
+      title: book.tittle,
+      genre: book.genre,
+      publicationYear: book.publication,
+      id: id,
+    });
+    console.log("i am running");
+    window.location.href = `/edit-book/${id}`;
   };
   const loadBook = async () => {
     try {
@@ -60,6 +74,7 @@ const AuthProvider = ({ children }) => {
       toast.error("Book creation failed");
     }
   };
+  console.log("auth", { author, title, genre, publicationYear });
   //const handleEdit = async (index) => {
   // try {
   //   let answer = window.confirm("Are you sure you want to delete this book?");
@@ -101,6 +116,12 @@ const AuthProvider = ({ children }) => {
         handleDelete,
         handleEdit,
         addBook,
+        author,
+        title,
+        genre,
+        publicationYear,
+        id,
+        updateData,
       }}
     >
       {children}
