@@ -8,30 +8,37 @@ import { useAuth } from "../../context/auth";
 const EditBook = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const { author, title, genre, publicationYear } = useAuth();
-  console.log({ author, title, genre, publicationYear });
-  const [bookAuthor, setBookAuthor] = useState("");
-  const [bookTitle, setBookTitle] = useState("");
-  const [bookGenre, setBookGenre] = useState("");
-  const [bookPublicationYear, setBookPublicationYear] = useState("");
+  const queryParams = new URLSearchParams(window.location.search);
+  const genre = queryParams.get("g");
+  const publication = queryParams.get("pub");
+  const title = queryParams.get("tit");
+  const author = queryParams.get("aut");
+
+  const [bookTitle, setBookTitle] = useState(title);
+  const [bookAuthor, setBookAuthor] = useState(author);
+  const [bookGenre, setBookGenre] = useState(genre);
+  const [bookPublicationYear, setBookPublicationYear] = useState(publication);
   const [id, setId] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const bookData = new FormData();
-      bookData.append("author", author);
-      bookData.append("title", title);
-      bookData.append("genre", genre);
-      bookData.append("publicationYear", publicationYear);
+      const bookData = {
+        tittle: bookTitle,
+        author: bookAuthor,
+        genre: bookGenre,
+        publication: bookPublicationYear,
+        id: params.bookId,
+      };
+      console.log(bookData);
 
-      const { data } = await axios.put(`/Book/${params.bookId}`, bookData);
-      if (data?.error) {
-        toast.error(data.error);
-      } else {
-        toast.success(`${data.tittle} added successfully`);
+      const data = await axios.put(`/Book/${params.bookId}`, bookData);
+      console.log("data is", data);
+      if (data.status === 204) {
+        toast.success(`${bookData.tittle} added successfully`);
         navigate("/");
+        setTimeout(() => {}, 2000);
       }
     } catch (err) {
       console.log(err);
@@ -45,7 +52,7 @@ const EditBook = () => {
         type="text"
         className="input"
         placeholder="Write an author"
-        value={author}
+        value={bookAuthor}
         onChange={(e) => setBookAuthor(e.target.value)}
       />
 
@@ -53,7 +60,7 @@ const EditBook = () => {
         type="text"
         className="input"
         placeholder="Write a title"
-        value={title}
+        value={bookTitle}
         onChange={(e) => setBookTitle(e.target.value)}
       />
 
@@ -61,7 +68,7 @@ const EditBook = () => {
         type="text"
         placeholder="Write a genre"
         className="input"
-        value={genre}
+        value={bookGenre}
         onChange={(e) => setBookGenre(e.target.value)}
       />
 
@@ -69,7 +76,7 @@ const EditBook = () => {
         type="text"
         placeholder="Write a publication year"
         className="input"
-        value={publicationYear}
+        value={bookPublicationYear}
         onChange={(e) => setBookPublicationYear(e.target.value)}
       />
 
