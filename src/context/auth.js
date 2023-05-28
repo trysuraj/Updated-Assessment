@@ -24,22 +24,11 @@ const AuthProvider = ({ children }) => {
     id: "",
   });
   const handleEdit = (book, id) => {
-    //window.location.href = `/edit-book/${id}`;
-    console.log("this is book", book);
-    // setUpdateData({
-    //   author: book.author,
-    //   title: book.tittle,
-    //   genre: book.genre,
-    //   publicationYear: book.publication,
-    //   id: id,
-    // });
     setUpdateData(book);
-    console.log("i am running");
-    console.log(updateData);
 
     window.location.href = `/edit-book/${id}?g=${book.genre}&pub=${book.publication}&tit=${book.tittle}&aut=${book.author}`;
   };
-  console.log("not seen", updateData);
+
   const loadBook = async () => {
     try {
       const res = await axios.get(`${axios.defaults.baseURL}/Book`);
@@ -70,33 +59,15 @@ const AuthProvider = ({ children }) => {
   };
   const addBook = async (bookData) => {
     try {
-      console.log("this is book", bookData);
       const { data } = await axios.post("/Book", bookData);
-      console.log("this is submit", data);
+
       toast.success(`${data.tittle} added successfully`);
-      //window.location.href = "/";
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
       toast.error("Book creation failed");
     }
   };
-  console.log("auth", { author, title, genre, publicationYear });
-  //const handleEdit = async (index) => {
-  // try {
-  //   let answer = window.confirm("Are you sure you want to delete this book?");
-  //   if (!answer) return;
-  //   const res = await axios.put(`${axios.defaults.baseURL}/Book/${index}`);
-  //   toast.success(`"${res.tittle}" is deleted`);
-  //   navigate("/");
-  // } catch (err) {
-  //   console.log(err);
-  //   toast.error("Delete failed. Try again.");
-  // }
-  //};
-
-  // useEffect(() => {
-  //   loadBook();
-  // }, []);
 
   useEffect(() => {
     const data = localStorage.getItem("auth");

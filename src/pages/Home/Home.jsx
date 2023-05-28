@@ -6,7 +6,7 @@ import styles from "./home.module.scss";
 import "./home.module.scss";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import axios from "axios";
+
 import { useAuth } from "../../context/auth";
 const Home = () => {
   const { loadBook, auth, handleDelete, handleEdit } = useAuth();
@@ -54,7 +54,6 @@ const Home = () => {
                     <div style={{ position: "relative", marginRight: "8px" }}>
                       <span
                         onClick={() => {
-                          console.log("this is not book", book);
                           handleEdit(book, book.id);
                         }}
                         className={styles["edit_link"]}

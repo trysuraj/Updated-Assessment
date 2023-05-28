@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import axios from "axios";
-import { useAuth } from "../../context/auth";
 
 const EditBook = () => {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ const EditBook = () => {
       console.log(bookData);
 
       const data = await axios.put(`/Book/${params.bookId}`, bookData);
-      console.log("data is", data);
+
       if (data.status === 204) {
         toast.success(`${bookData.tittle} added successfully`);
         navigate("/");
